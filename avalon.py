@@ -106,14 +106,11 @@ def _install(root=None):
             os.environ[dependency] = os.path.join(REPO_DIR, "git", name)
 
     os.environ["PATH"] = os.pathsep.join([
+        os.environ["PATH"],
         # Expose "avalon", overriding existing
         os.path.join(REPO_DIR),
-
-        os.environ["PATH"],
-
         # Add generic binaries
         os.path.join(REPO_DIR, "bin"),
-
         # Add OS-level dependencies
         os.path.join(REPO_DIR, "bin", platform.system().lower()),
     ])
@@ -249,21 +246,21 @@ def main():
     _install(root=kwargs.root)
 
     cd = os.path.dirname(os.path.abspath(__file__))
-    examplesdir = os.getenv("AVALON_EXAMPLES",
+    examples_dir = os.getenv("AVALON_EXAMPLES",
                             os.path.join(cd, "git", "avalon-examples"))
 
     if kwargs.import_:
-        fname = os.path.join(examplesdir, "import.py")
+        fname = os.path.join(examples_dir, "import.py")
         returncode = forward(
             [sys.executable, "-u", fname] + args)
 
     elif kwargs.export:
-        fname = os.path.join(examplesdir, "export.py")
+        fname = os.path.join(examples_dir, "export.py")
         returncode = forward(
             [sys.executable, "-u", fname] + args)
 
     elif kwargs.build:
-        fname = os.path.join(examplesdir, "build.py")
+        fname = os.path.join(examples_dir, "build.py")
         returncode = forward(
             [sys.executable, "-u", fname] + args)
 
